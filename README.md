@@ -37,4 +37,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Acknowledgements
 
-We thank [Matheus Vieira]{https://github.com/Math-42/PSEL-Zenith-2022} for providing the original code.
+We thank [Matheus Vieira](https://github.com/Math-42) for providing the original code.
