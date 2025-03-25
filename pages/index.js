@@ -92,7 +92,7 @@ export default function Home() {
         - As falhas diminuem o tempo restante da atividade;<br />
         - Falhar não influencia na sua avaliação no Processo Seletivo;<br />
         - Mais alguma dúvida? Pergunte ao seu avaliador.<br />
-          <TextInput counter={counter} target={-1} pass={"PSEL_2024"} addCounter={addCounter} onStart={onStart} >
+          <TextInput counter={counter} target={-1} pass={"PSEL_2025"} addCounter={addCounter} onStart={onStart} >
             &gt; Insira a senha para começar:
           </TextInput>
         </TextInfo>
