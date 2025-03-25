@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className={styles.header}>PSEL_2024.1 SERIE:Z3N4DIR</div>
+      <div className={styles.header}>PSEL_2025.1 SERIE:Z3N4DIR</div>
       <section className={styles.scanline} />
       {finalScreen ?
         <div className={styles.finalScreen}>
@@ -129,7 +129,7 @@ export default function Home() {
           &gt; [NARRADOR]:"Pelo visto a tempestade atingiu o hover e seu sistema está executando de forma mínima, ou seja, as coisas vão ser manuais daqui pra frente, como nos velhos tempos"<br />
           <br />
         </TextInfo>
-        <TextInput counter={counter} target={4} pass={"#Z3NS3NH4_2024#"} addCounter={addCounter}>
+        <TextInput counter={counter} target={4} pass={"#Z3NS3NH4_2025#"} addCounter={addCounter}>
           &gt; Insira uma chave válida:
       </TextInput>
         <TextInfo counter={counter} target={5} addCounter={addCounter} >
