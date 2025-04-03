@@ -1,88 +1,91 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
+
+const HOURS_TOTAL = 1;
 
 export default function Timer() {
-	const [seconds, setSeconds] = useState(59)
-	const [minutes, setMinutes] = useState(59)
-	const [started, setStarted] = useState(false)
-	const [error, setError] = useState(false)
-	const [currID, setCurrID] = useState(0)
+  const [totalSeconds, setTotalSeconds] = useState(HOURS_TOTAL * 60 * 60); // 2 horas
+  const [started, setStarted] = useState(false);
+  const [error, setError] = useState(false);
+  const [currID, setCurrID] = useState(0);
 
-	const timer = () => {
-		if (seconds === 0 && minutes === 0) {
-			setStarted(false);
-			window.dispatchEvent(new CustomEvent("timerFinished"))
-			return;
-		} else if (seconds === 0) {
-			setMinutes(minutes - 1);
-			setSeconds(59);
-		} else {
-			setSeconds(seconds - 1);
-		}
+  const timer = () => {
+    if (totalSeconds <= 0) {
+      setStarted(false);
+      window.dispatchEvent(new CustomEvent("timerFinished"));
+      return;
+    } else {
+      setTotalSeconds((prev) => prev - 1);
+    }
+  };
 
-	}
+  const minus = () => {
+    if (totalSeconds <= 180) {
+      clearTimeout(currID);
+      setStarted(false);
+      setTotalSeconds(0);
+      window.dispatchEvent(new CustomEvent("timerFinished"));
+    } else {
+      setTotalSeconds((prev) => prev - 180);
+    }
+  };
 
-	const minus = () => {
-		if (minutes - 3 < 0 || ((minutes - 3)==0 && seconds===0)) {
-			clearTimeout(currID);
-			setStarted(false);
-			setSeconds(0);
-			setMinutes(0);
-			clearTimeout()
-			window.dispatchEvent(new CustomEvent("timerFinished"));
-		} else {
-			setMinutes(minutes - 3);
-		}
-	}
+  function startTimer() {
+    setStarted(true);
+  }
 
-	function pad(num) {
-		const s = "00" + num;
-		return s.substr(s.length - 2);
-	}
+  function setErrorTrue() {
+    setError(true);
+  }
 
-	function startTimer() {
-		setStarted(true)
-	}
+  function formatTime(seconds) {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
 
-	function setErrorTrue() {
-		setError(true)
-	}
+    const pad = (num) => String(num).padStart(2, "0");
+    return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+  }
 
-	useEffect(() => {
+  useEffect(() => {
+    let intervalID;
+    if (started) {
+      intervalID = setTimeout(() => {
+        timer();
+      }, 1000);
+      setCurrID(intervalID);
+    } else {
+      clearTimeout(currID);
+    }
+  }, [totalSeconds, started]);
 
-		let intervalID;
-		if (started) {
-			intervalID = setTimeout(() => {
-				timer();
+  useEffect(() => {
+    if (error && started) {
+      minus();
+    }
+    if (error) setError(false);
+  }, [error]);
 
-			}, 1000);
-			setCurrID(intervalID);
-		} else {
-			clearTimeout(currID);
-		}
+  useEffect(() => {
+    window.addEventListener("startTimer", startTimer);
+    window.addEventListener("error", setErrorTrue);
+    return () => {
+      window.removeEventListener("startTimer", startTimer);
+      window.removeEventListener("error", setErrorTrue);
+    };
+  }, []);
 
-
-	}, [seconds, started]);
-
-	useEffect(() => {
-		if (error && started) {
-			minus();
-		}
-		if(error)setError(false);
-	}, [error])
-
-	useEffect(() => {
-		window.addEventListener("startTimer", startTimer);
-		window.addEventListener("error", setErrorTrue);
-		return () => {
-			window.removeEventListener("startTimer", startTimer);
-			window.removeEventListener("error", setErrorTrue);
-		}
-
-	}, []);
-
-	return (
-		<div>
-			00:{pad(minutes)}:{pad(seconds)}
-		</div>
-	)
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "20px",
+        fontSize: "24px",
+        fontFamily: "monospace",
+      }}
+    >
+      {formatTime(totalSeconds)}
+    </div>
+  );
 }
