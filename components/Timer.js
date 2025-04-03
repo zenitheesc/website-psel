@@ -1,68 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const HOURS_TOTAL = 1;
+const HOURS_TOTAL = 2;
+const MINUTES_PENALTY = 1;
+const HOURS_TOTAL_SECONDS = HOURS_TOTAL * 60 * 60;
+const MINUTES_PENALTY_SECONDS = MINUTES_PENALTY * 60;
 
 export default function Timer() {
-  const [totalSeconds, setTotalSeconds] = useState(HOURS_TOTAL * 60 * 60); // 2 horas
+  const [totalSeconds, setTotalSeconds] = useState(HOURS_TOTAL_SECONDS);
   const [started, setStarted] = useState(false);
   const [error, setError] = useState(false);
-  const [currID, setCurrID] = useState(0);
+  const intervalRef = useRef(null);
 
-  const timer = () => {
-    if (totalSeconds <= 0) {
-      setStarted(false);
-      window.dispatchEvent(new CustomEvent("timerFinished"));
-      return;
-    } else {
-      setTotalSeconds((prev) => prev - 1);
-    }
+  const startTimer = () => {
+    setStarted(true);
+  };
+
+  const setErrorTrue = () => {
+    setError(true);
   };
 
   const minus = () => {
-    if (totalSeconds <= 180) {
-      clearTimeout(currID);
-      setStarted(false);
-      setTotalSeconds(0);
-      window.dispatchEvent(new CustomEvent("timerFinished"));
-    } else {
-      setTotalSeconds((prev) => prev - 180);
+    setTotalSeconds((prev) => {
+      const newTime = prev - MINUTES_PENALTY_SECONDS;
+      if (newTime <= 0) {
+        stopTimer();
+        window.dispatchEvent(new CustomEvent("timerFinished"));
+        return 0;
+      }
+      return newTime;
+    });
+  };
+
+  const stopTimer = () => {
+    setStarted(false);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
   };
 
-  function startTimer() {
-    setStarted(true);
-  }
-
-  function setErrorTrue() {
-    setError(true);
-  }
-
-  function formatTime(seconds) {
+  const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
 
     const pad = (num) => String(num).padStart(2, "0");
     return `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
-  }
+  };
 
   useEffect(() => {
-    let intervalID;
-    if (started) {
-      intervalID = setTimeout(() => {
-        timer();
+    if (started && intervalRef.current === null) {
+      intervalRef.current = setInterval(() => {
+        setTotalSeconds((prev) => {
+          if (prev <= 1) {
+            stopTimer();
+            window.dispatchEvent(new CustomEvent("timerFinished"));
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
-      setCurrID(intervalID);
-    } else {
-      clearTimeout(currID);
     }
-  }, [totalSeconds, started]);
+
+    return () => {
+      if (!started && intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [started]);
 
   useEffect(() => {
-    if (error && started) {
+    if (error) {
       minus();
+      setError(false);
     }
-    if (error) setError(false);
   }, [error]);
 
   useEffect(() => {
