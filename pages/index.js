@@ -161,9 +161,11 @@ export default function Home() {
             <br />
             00110011&nbsp; 01001110&nbsp; 01001000&nbsp; 00110100&nbsp; 01011111{" "}
             <br />
-            00110010&nbsp; 00110000&nbsp; 00110010&nbsp;{" "}
-            {convertToBinary(currentDecade)}&nbsp;{" "}
-            {convertToBinary(currentYear)} <br />
+            00110010&nbsp; 00110000&nbsp; 
+            {" "}{convertToBinary(currentDecade)}&nbsp; 
+            {" "}{convertToBinary(currentYear)}&nbsp; 
+            00100011{" "} 
+            <br />
           </span>
           <br />
           &gt; [NARRADOR]:"Pelo visto a tempestade atingiu o hover e seu sistema
