@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const HOURS_TOTAL = 2;
+const HOURS_TOTAL = 1;
 const MINUTES_PENALTY = 1;
 const HOURS_TOTAL_SECONDS = HOURS_TOTAL * 60 * 60;
 const MINUTES_PENALTY_SECONDS = MINUTES_PENALTY * 60;

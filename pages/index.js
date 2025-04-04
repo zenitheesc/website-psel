@@ -43,6 +43,21 @@ export default function Home() {
     return result;
   }
 
+  function useBeforeUnload(message) {
+    useEffect(() => {
+      const handleBeforeUnload = (e) => {
+        e.preventDefault();
+        e.returnValue = message;
+      };
+  
+      window.addEventListener('beforeunload', handleBeforeUnload);
+  
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }, [message]);
+  }
+
   function onStart() {
     window.dispatchEvent(new CustomEvent("startTimer"));
     sound1 = new Howl({
@@ -76,6 +91,8 @@ export default function Home() {
     };
   }, []);
 
+  useBeforeUnload("Você tem certeza que deseja sair? As alterações podem não ser salvas.");
+  
   return (
     <div>
       <div className={styles.rightHeader}>PSEL_2025.1 SERIE:Z3N4DIR</div>
@@ -110,7 +127,7 @@ export default function Home() {
           <TextInput
             counter={counter}
             target={-1}
-            pass={"PSEL_2025"}
+            pass={`PSEL_${currentDate.toString()}`}
             addCounter={addCounter}
             onStart={onStart}
           >
@@ -177,7 +194,7 @@ export default function Home() {
         <TextInput
           counter={counter}
           target={4}
-          pass={"#Z3NS3NH4_2025#"}
+          pass={`#Z3NS3NH4_${currentDate.toString}#`}
           addCounter={addCounter}
         >
           &gt; Insira uma chave válida:
