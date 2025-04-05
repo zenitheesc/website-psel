@@ -1,12 +1,18 @@
-import React from 'react'
-import TextInfo from './TextInfo'
+import React from "react";
+import TextInfo from "./TextInfo";
 
 export default function Logo() {
-	return (
-		<div>
-			<TextInfo counter={0} target={0}>
-				<pre style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
-					{`                                                                                                                                                                                                                                                                                                      
+  return (
+    <div style={{ width: "100%", height: "20%" }}>
+      <TextInfo counter={0} target={0}>
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            wordWrap: "break-word",
+            fontSize: "1px",
+          }}
+        >
+          {`                                                                                                                                                                                                                                                                                                      
                                 1111000000000000000000000000001111                                                                                                                                                                                                                                                                     
                            11000000000000000000000000000000000000000111                                                                                                                                                                                                                                                                  
                        1100000000000000000000000000000000000000000000000011                                                                                                                                                                                                                                                              
@@ -55,8 +61,8 @@ export default function Logo() {
                               111000000000000000000000000000000000111                                                                                                                                                                                                                                                                   
                                    11111100000000000000000011111                                                                                                                                                                                                                                                                        
                                                  11`}
-				</pre>
-			</TextInfo>
-		</div>
-	)
+        </pre>
+      </TextInfo>
+    </div>
+  );
 }
