@@ -194,7 +194,7 @@ export default function Home() {
         <TextInput
           counter={counter}
           target={4}
-          pass={`#Z3NS3NH4_${currentDate.toString}#`}
+          pass={`#Z3NS3NH4_${currentDate.toString()}#`}
           addCounter={addCounter}
         >
           &gt; Insira uma chave válida:
