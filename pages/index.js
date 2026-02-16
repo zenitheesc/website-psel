@@ -93,11 +93,10 @@ export default function Home() {
   }, []);
 
   function semesterToSeason() {
-    // Aceita tanto 1-12 (mês humano) quanto 0-11 (Date.getMonth())
     const normalizedMonth = new Date().getMonth() + 1;
-    if (normalizedMonth >= 1 && normalizedMonth <= 6) return 1;
-    if (normalizedMonth >= 7 && normalizedMonth <= 12) return 2;
-    return 1;
+    if (normalizedMonth >= 1 && normalizedMonth <= 6) return "1";
+    if (normalizedMonth >= 7 && normalizedMonth <= 12) return "2";
+    return "1";
   }
 
   useBeforeUnload("Você tem certeza que deseja sair? As alterações podem não ser salvas.");
@@ -105,7 +104,7 @@ export default function Home() {
   return (
     <div>
       <div className={styles.rightHeader}>
-        PSEL_{currentDateString}.{semesterToSeason} SERIE:Z3N4DIR
+        PSEL_{currentDateString}.{semesterToSeason()} SERIE:Z3N4DIR
       </div>
       <section className={styles.scanline} />
       {finalScreen ? (
