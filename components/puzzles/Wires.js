@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import TextInfo from "../TextInfo";
 import TextInput from "../TextInput";
+import { passwords } from "../../passwords/passwords"
 
 export default function Wires(props) {
   const [counter, setCounter] = useState(0);
